@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Usuario
 from .models import Persona
 from .forms import PersonaForm
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
+from rest_framework.decorators import api_view
 from .serializers import PersonaSerializer
 
 def index(request):
@@ -45,4 +46,33 @@ def persona_form_view(request):
 # para uso con rest_framework
 class PersonaViewSet(viewsets.ModelViewSet):
   queryset = Persona.objects.all()
-  serializer
+  serializer_class = PersonaSerializer
+
+
+# con generic API VIEW
+class PersonaViewSet_2(generics.CreateAPIView, generics.ListAPIView):
+  queryset = Persona.objects.all()
+  serializer_class = PersonaSerializer
+
+# custom API
+@api_view(['GET'])
+def persona_contador(request):
+  """
+  Cantidad de itesm en el modelo persona
+  """
+  try:
+    cantidad = Persona.objects.count()
+    return JsonResponse(
+      {
+        "cantidad": cantidad,
+      },
+      safe=False,
+      status=200,
+    )
+  except Exception as e:
+      return JsonResponse(
+        {
+          "message": str(e)
+        },
+        status=400
+      )
