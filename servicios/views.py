@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from .models import Usuario
 from .models import Persona
 from .forms import PersonaForm
+from rest_framework import viewsets
+from .serializers import PersonaSerializer
 
 def index(request):
   return HttpResponse('Hola Mundo')
@@ -38,3 +40,9 @@ def persona_form_view(request):
   if form.is_valid():
     form.save()
   return render(request, 'form_personas.html', {"form": form })
+
+
+# para uso con rest_framework
+class PersonaViewSet(viewsets.ModelViewSet):
+  queryset = Persona.objects.all()
+  serializer

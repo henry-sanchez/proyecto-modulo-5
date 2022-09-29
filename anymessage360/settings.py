@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'servicios', # se debe agregar la aplicacion para que django reconozca los modelos
 ]
 
