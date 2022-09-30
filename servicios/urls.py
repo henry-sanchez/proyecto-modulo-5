@@ -16,5 +16,8 @@ urlpatterns = [
   path('', include(router.urls)),
   # como api generic
   path('persona_generic/create_list', views.PersonaViewSet_2.as_view(), name='personas'),
-  path('persona_generic/cantidad', views.persona_contador, name='contador')
+  path('persona_generic/cantidad', views.persona_contador, name='contador'),
+  # serializador personalizado para reporte
+  path('persona/reporte', views.reporte_personas, name='reporte'),
+  # path('registro/persona', views.enviar_datos, name='formulario_personas')
 ]

@@ -10,3 +10,8 @@ def validar_par(value):
 def validar_caracteres_especiales(value):
   if '@' in value:
     raise ValidationError('@ no es permitido')
+
+# custom serializer para input
+def validar_nombre_subject(value):
+  if value == 'Comida':
+    raise ValidationError('Comida no es permitido')

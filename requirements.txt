@@ -18,8 +18,10 @@ defer==1.0.6
 distlib==0.3.4
 distro==1.7.0
 distro-info===1.1build1
+dj-rest-auth==2.2.5
 Django==4.1.1
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.0
 drf-yasg==1.21.4
 duplicity==0.8.21
 fasteners==0.14.1

@@ -7,6 +7,7 @@ from .forms import PersonaForm
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
 from .serializers import PersonaSerializer
+from .serializers import ReportePersonasSerializer #, NombrePersonaSerializer
 
 def index(request):
   return HttpResponse('Hola Mundo')
@@ -76,3 +77,38 @@ def persona_contador(request):
         },
         status=400
       )
+
+@api_view(['GET'])
+def reporte_personas(request):
+  """
+  Reporte de personas (se serializa para representar en un JSON)
+  """
+  try:
+    personas = Persona.objects.filter(nombre='U')
+    cantidad = personas.count()
+    return JsonResponse(
+      ReportePersonasSerializer({
+        "cantidad": cantidad,
+        "personas": personas,
+      }).data,
+      safe=False,
+      status=200,
+    )
+  except Exception as e:
+    return JsonResponse(
+      {
+        "message": str(e)
+      },
+      status=400
+    )
+
+# @api_view(['POST'])
+# def enviar_datos(request):
+#   """
+#   Formulario de entrada de personas (se serializa para representar en un JSON)
+#   """
+#   customSerializer = NombrePersonaSerializer(data=request.data) # indica que esta recibiendo datos de entrada
+#   if customSerializer.is_valid():
+#     return JsonResponse({"mensaje": "Datos registrados correctamente"}, status=200)
+#   else:
+#     return JsonResponse({"message": customSerializer.errors}, status=400)
