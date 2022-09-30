@@ -5,7 +5,8 @@ from .models import Usuario
 from .models import Persona
 from .forms import PersonaForm
 from rest_framework import viewsets, generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .serializers import PersonaSerializer
 from .serializers import ReportePersonasSerializer #, NombrePersonaSerializer
 
@@ -57,6 +58,7 @@ class PersonaViewSet_2(generics.CreateAPIView, generics.ListAPIView):
 
 # custom API
 @api_view(['GET'])
+@permission_classes([IsAuthenticated]) # se restringe con autorizacion
 def persona_contador(request):
   """
   Cantidad de itesm en el modelo persona

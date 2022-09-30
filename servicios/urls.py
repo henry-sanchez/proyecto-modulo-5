@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
@@ -20,4 +21,6 @@ urlpatterns = [
   # serializador personalizado para reporte
   path('persona/reporte', views.reporte_personas, name='reporte'),
   # path('registro/persona', views.enviar_datos, name='formulario_personas')
+  # autenticacion
+  path('auth/', include('dj_rest_auth.urls')), # TODO: revisar
 ]
