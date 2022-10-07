@@ -7,6 +7,12 @@ def validar_par(value):
       params = { 'value': value },
     )
 
+def precio_maximo(value):
+  if value > 1000:
+    raise ValidationError(
+      '%Precio no puede superar 1000 Bs%',
+    )
+
 def validar_caracteres_especiales(value):
   if '@' in value:
     raise ValidationError('@ no es permitido')
