@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from .models import Usuario
-from .models import Persona
+from .models import Usuario, Persona, Rol, Usuario, UsuarioServicio, Servicio
 from .forms import PersonaForm
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import PersonaSerializer
-from .serializers import ReportePersonasSerializer #, NombrePersonaSerializer
+from .serializers import ReportePersonasSerializer
+from .serializers import NombrePersonaSerializer
+from .serializers import RolSerializer
+from .serializers import UsuarioSerializer
+from .serializers import UsuarioServicioSerializer
+from .serializers import ServicioSerializer
 
 def index(request):
   return HttpResponse('Hola Mundo')
@@ -46,22 +50,34 @@ def persona_form_view(request):
 
 
 # para uso con rest_framework
-class PersonaViewSet(viewsets.ModelViewSet):
-  queryset = Persona.objects.all()
-  serializer_class = PersonaSerializer
-
 
 # con generic API VIEW
-class PersonaViewSet_2(generics.CreateAPIView, generics.ListAPIView):
+class PersonaViewSet(generics.CreateAPIView, generics.ListAPIView):
   queryset = Persona.objects.all()
   serializer_class = PersonaSerializer
+
+class RolViewSet(generics.CreateAPIView, generics.ListAPIView):
+  queryset = Rol.objects.all()
+  serializer_class = RolSerializer
+
+class UsuarioViewSet(generics.CreateAPIView, generics.ListAPIView):
+  queryset = Usuario.objects.all()
+  serializer_class = UsuarioSerializer
+
+class UsuarioServicioViewSet(generics.CreateAPIView, generics.ListAPIView):
+  queryset = UsuarioServicio.objects.all()
+  serializer_class = UsuarioServicioSerializer
+
+class ServicioViewSet(generics.CreateAPIView, generics.ListAPIView):
+  queryset = Servicio.objects.all()
+  serializer_class = ServicioSerializer
 
 # custom API
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) # se restringe con autorizacion
 def persona_contador(request):
   """
-  Cantidad de itesm en el modelo persona
+  Cantidad de items en el modelo persona
   """
   try:
     cantidad = Persona.objects.count()
@@ -104,13 +120,13 @@ def reporte_personas(request):
       status=400
     )
 
-# @api_view(['POST'])
-# def enviar_datos(request):
-#   """
-#   Formulario de entrada de personas (se serializa para representar en un JSON)
-#   """
-#   customSerializer = NombrePersonaSerializer(data=request.data) # indica que esta recibiendo datos de entrada
-#   if customSerializer.is_valid():
-#     return JsonResponse({"mensaje": "Datos registrados correctamente"}, status=200)
-#   else:
-#     return JsonResponse({"message": customSerializer.errors}, status=400)
+@api_view(['POST'])
+def enviar_datos(request):
+  """
+  Formulario de entrada de personas (se serializa para representar en un JSON)
+  """
+  customSerializer = NombrePersonaSerializer(data=request.data) # indica que esta recibiendo datos de entrada
+  if customSerializer.is_valid():
+    return JsonResponse({"mensaje": "Datos registrados correctamente"}, status=200)
+  else:
+    return JsonResponse({"message": customSerializer.errors}, status=400)

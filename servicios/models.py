@@ -66,7 +66,7 @@ class UsuarioServicio(models.Model):
   updated = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.usuario+self.servicio
+    return self.usuario.user+self.servicio.nombre
 
 # si se requiere usar nombres convencionales de tablas
 # class Meta:
